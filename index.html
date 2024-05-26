@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="width=device-width, initial-scale=1">
+    <title>25th Floor</title>
+    <style type="text/css">
+        body {
+            background-image: transparent;
+            background-position: relative;
+            height: 100%;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: relative;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            min-width: 100vh;
+            background-position-x: center;
+            margin: 0;
+        }
+
+        .images {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        audio {
+            display: none !important;
+        }
+        .bgContainer {
+            min-height: 100vh;
+            width: 100%;
+            margin: auto;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        @media only screen and (max-width: 1280px) {
+            .bgContainer { 
+                width: 100%;
+            }
+        }
+        @media only screen and (max-width: 720px) {
+            .bgContainer { 
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bgContainer"></div>
+    <audio controls id="audio1"><source src="Piano.mp3" type="audio/mp3"></audio>
+    <audio controls id="audio2"><source src="Ballad.mp3" type="audio/mp3"></audio>
+    <audio controls id="audio3"><source src="Guitar.mp3" type="audio/mp3"></audio>
+    <audio controls id="audio4"><source src="Country.mp3" type="audio/mp3"></audio>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    let clickCount = 0;
+
+    $('body').click(() => {
+        const backgrounds = ["1.gif", "2.gif", "3.gif", "4.gif"];
+        const audios = ["audio1", "audio2", "audio3", "audio4"];
+        
+        const bgContainer = $(".bgContainer");
+        const currentBg = backgrounds[clickCount % backgrounds.length];
+        const currentAudio = audios[clickCount % audios.length];
+        
+        bgContainer.css("background-image", `url(${currentBg})`);
+        playAudio(currentAudio);
+        
+        clickCount++;
+    });
+
+    function playAudio(id) {
+        const audio = $(`#${id}`)[0];
+        $('audio').trigger('pause');
+        audio.play();
+        loop(audio);
+    }
+
+    function loop(audio) {
+        if (typeof audio.loop === 'boolean') {
+            audio.loop = true;
+        } else {
+            audio.addEventListener('ended', () => {
+                audio.currentTime = 0;
+                audio.play();
+            }, false);
+        }
+    }
+</script>
+</html>
